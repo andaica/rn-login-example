@@ -13,7 +13,7 @@ npm install
 
 ## DEMO
 
-![alt text](https://gyazo.com/a8bb9862844ba833d79cced1741fbe76)
+[![Demo](demo/demo1.png)](https://gyazo.com/a8bb9862844ba833d79cced1741fbe76)
 
 ## Hướng dẫn sử dụng
 
