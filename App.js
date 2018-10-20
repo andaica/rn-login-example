@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, Alert} from 'react-native';
 
 import Login from './src/components/Login/Login';
 import Gallery from './src/components/Gallery/Gallery';
@@ -21,9 +21,48 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  selectImage = (image) => {
+    Alert.alert(
+      'Choose Image!',
+      'image: ' + image,
+    );
+  }
+
   render() {
+    let images = [
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+      'https://facebook.github.io/react-native/docs/assets/favicon.png',
+    ];
     return (
-      <Gallery />
+      <Gallery 
+        data={images}
+        column={2}
+        icon={'search'}
+        onSelect={this.selectImage}
+      />
       // <View style={styles.container}>
       //   <Text style={styles.welcome}>Welcome to React Native!</Text>
       //   <Text style={styles.instructions}>To get started, edit App.js</Text>

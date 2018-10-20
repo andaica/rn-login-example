@@ -1,28 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, 
-    TextInput, TouchableOpacity, ScrollView,
-    FlatList, Alert, Dimensions
+import { StyleSheet, Text, View, Image, TouchableOpacity,
+    FlatList, Dimensions
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const IMAGE_LIST = [
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    'https://facebook.github.io/react-native/docs/assets/favicon.png',
     'https://facebook.github.io/react-native/docs/assets/favicon.png',
     'https://facebook.github.io/react-native/docs/assets/favicon.png',
     'https://facebook.github.io/react-native/docs/assets/favicon.png',
@@ -38,7 +20,6 @@ export default class Gallery extends Component {
         this.state = {
             selected: [],
         };
-        this.images = IMAGE_LIST;
     }
 
     renderItem = ({ item, index }) => {
@@ -48,16 +29,19 @@ export default class Gallery extends Component {
             imageItem = (
                 <TouchableOpacity activeOpacity={.5} onPress={() => this.chooseImage(index)} key={index}>
                     <Image
-                        style={styles.itemImageChoosed} 
+                        style={[styles.itemImage, this.imageStyle, this.imageChoosedStyle]} 
                         source={{uri: this.images[index]}}
                     />
+                    <View style={styles.iconContainer}>
+                        <Icon name={this.icon} size={25} color="#FFF" style={styles.icon} />
+                    </View>
                 </TouchableOpacity>
             )
         } else {
             imageItem = (
                 <TouchableOpacity activeOpacity={.5} onPress={() => this.chooseImage(index)} key={index}>
                     <Image
-                        style={styles.itemImage} 
+                        style={[styles.itemImage, this.imageStyle]} 
                         source={{uri: this.images[index]}}
                     />
                 </TouchableOpacity>
@@ -78,10 +62,25 @@ export default class Gallery extends Component {
             this.setState({
                 selected: arr
             })
+            this.props.onSelect(this.images[index]);
         }
     }
 
     render() {
+        if(this.props.data) {
+            this.images = this.props.data;
+        } else {
+            this.images = IMAGE_LIST;
+        }
+
+        this.settingColumn = this.props.column || 3;
+        this.imageChoosedStyle = this.props.choosedStyle || {};
+        this.imageStyle = {
+            width: (Dimensions.get('window').width / this.settingColumn) - 2,
+            height: (Dimensions.get('window').width / this.settingColumn)
+        }
+        this.icon = this.props.icon || "check-circle";
+
         return (
             <View style={styles.container} behavior='padding' enabled>
                 <View style={styles.header}>
@@ -91,7 +90,7 @@ export default class Gallery extends Component {
                 </View>
                 
                 <FlatList
-                    numColumns={3}
+                    numColumns={this.settingColumn}
                     contentContainerStyle={styles.listImages}
                     data={this.images}
                     renderItem={this.renderItem}
@@ -106,7 +105,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F5F6F7',
-        // paddingTop: 24,
         flexDirection: 'column'
     },
     header: {
@@ -121,18 +119,19 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     listImages: {
-        // justifyContent: 'center',
-        // flexDirection: 'row',
-        // flexWrap: 'wrap',
-        // margin: 20,
     },
     itemImage: {
-        width: (Dimensions.get('window').width / 3) - 2,
-        height: (Dimensions.get('window').width / 3),
         margin: 1,
     },
-    itemImageChoosed: {
-        width: 100,
-        height: 100,
+    iconContainer: { 
+        position: 'absolute', 
+        zIndex: 99, 
+        width: '100%', 
+        alignItems: 'flex-end', 
+        height: '100%',
+    }, 
+    icon: {
+        marginTop: 5,
+        marginRight: 5
     }
 });
